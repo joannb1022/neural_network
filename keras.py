@@ -3,7 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import preparedata
 import random
-from preparedata import create_data, create_training_set, show_random_shapes
+from preparedata import create_data, create_data_with_labels, show_random_shapes
 
 class Model():
     def __init__(self):
@@ -12,9 +12,9 @@ class Model():
         self.dir_name_test = "test"
         self.img_size = 28
         self.train_data = create_data(self.categories, 28, "train")
-        self.train_data_with_labels = create_training_set(self.train_data, self.img_size)
+        self.train_data_with_labels = create_data_with_labels(self.train_data, self.img_size)
         self.test_data = create_data(self.categories, 28, "test")
-        self.test_data_with_labels = create_training_set(self.test_data, self.img_size)
+        self.test_data_with_labels = create_data_with_labels(self.test_data, self.img_size)
         self.model = None
         self.next = False
     def train(self):
