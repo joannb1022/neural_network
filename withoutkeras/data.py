@@ -17,7 +17,6 @@ class Data():
         self.test_data_with_labels = create_data_with_labels(self.test_data, self.img_size)
         self.rec_data = create_data(self.categories, self.img_size, self.dir_name_rec)
         self.recognize_data_with_labels = create_data_with_labels(self.rec_data, self.img_size)
-        #self.model = None
         self.next = False
 
 

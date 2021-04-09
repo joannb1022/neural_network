@@ -19,23 +19,26 @@ def train_step(model, x_input, y_true, epoch, test_images, test_labels):
 
     epoch_loss_avg = None
 
+    """
+    tf.GradientTape oblicza gradient w odniesieniu do danych wejściowych (zwykle tf.Variables)
+    i zapisuje na "taśmie". Potem używana jest ona do obliczania straty w stosunku do zmiennych modelu
+    (w tym przypdaku wag i bias)
+    """
+
     with tf.GradientTape() as tape:
         preds = model.run(x_input)
         loss = helper.loss_function(preds, y_true)
         grads = tape.gradient(loss, model.trainable_variables())
         model.optimizer.apply_gradients(zip(grads, model.trainable_variables()))
 
-
-        y_pred = model.run(test_images)
-        matches = tf.equal(tf.math.argmax(y_pred, 1), tf.math.argmax(test_labels, 1))
-
-        epoch_loss_avg = tf.reduce_mean(loss)
+        pred = model.run(test_images)
+        avg_loss = tf.reduce_mean(loss)  #oblicza srednia elementow w tensorze
 
         print(" On epoch {}".format(epoch))
-        tf.print( "Loss: ", epoch_loss_avg)
+        tf.print( "Loss: ", avg_loss)
         print("\n")
 
-        return  epoch_loss_avg
+        return avg_loss
 
 def train(model, plots):
     data = Data()

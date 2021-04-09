@@ -14,7 +14,7 @@ class my_model():
         self.train_loss= []
 
         self.shapes = [
-            [3, 3, 1, 32],
+            [3, 3, 1, 32],   #[filter_h, filter_w, in, out]
             [5, 5, 32, 64],
             [8 * 8 * 64, 512],
             [512, self.categories]
@@ -33,10 +33,10 @@ class my_model():
         for i in range(len(self.shapes)):
             self.bias.append(self.helper.get_tfVariable([1, self.shapes[i][-1]], 'bias{}'.format(i)))
 
-    def run(self, x_input):
+    def run(self, images_input):
 
-        conv1 = self.helper.conv_layer(x_input, self.weights[0], self.bias[0])
-        conv1 = tf.nn.relu(conv1)
+        conv1 = self.helper.conv_layer(images_input, self.weights[0], self.bias[0])
+        conv1 = tf.nn.relu(conv1)  #Rectified Linear Unit
         pool1 = self.helper.max_pool_layer(conv1)
 
         conv2 = self.helper.conv_layer(pool1, self.weights[1], self.bias[1])
