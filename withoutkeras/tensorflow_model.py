@@ -3,14 +3,14 @@ from helper import Helper #w tym pliku znajduja sie funkcje pomocnicze
 
 class my_model():
 
-    def __init__(self):
+    def __init__(self, epoch):
 
         self.dropout = 0.5
         self.categories = 4
         self.helper = Helper()
         self.optimizer = tf.optimizers.Adam(learning_rate=0.001)
         self.batch_size = 32
-        self.epochs = 5
+        self.epochs = epoch
         self.train_loss= []
 
         self.shapes = [

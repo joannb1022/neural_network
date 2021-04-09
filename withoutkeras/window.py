@@ -11,11 +11,13 @@ class InputWindow:
                        [sg.Text("There are 4 shapes:")],
                        [sg.Text("circle, square, triangle, star")],
                        [sg.Checkbox('Show plots', key="-PLOT-")],
+                       [sg.Spin([i for i in range(0, 500, 1)], initial_value=50, key="-EPOCHS-")],
                        [sg.Button('Start', size=(10, 1), font='Helvetica 14')],
                        [sg.Button('Exit', size=(10, 1), font='Helvetica 14')]]
         self.interrupted = False
         self.plots = False
         self.model = None
+        self.epochs = 50
     def show(self):
         window = sg.Window('Main Window', self.layout, location=(800, 400))
 
@@ -25,7 +27,8 @@ class InputWindow:
                 self.interrupted = True
                 break
             if event == "Start":
-                model = my_model()
+                self.epochs = int(values["-EPOCHS-"])
+                model = my_model(self.epochs)
                 self.model = model
                 self.plots = values["-PLOT-"]
                 train(model,self.plots)

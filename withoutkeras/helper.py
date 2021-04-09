@@ -7,11 +7,11 @@ class Helper():
         self.name = "helper"
 
     def conv_layer(self, input_x, filters, b):
-        y = tf.nn.conv2d(input=input_x, filters = filters, strides=[1, 1, 1, 1], padding='SAME') + b
+        y = tf.nn.conv2d(input = input_x, filters = filters, strides=[1, 1, 1, 1], padding='SAME') + b
         return y
 
     def max_pool_layer(self, x):
-        return tf.nn.max_pool2d(input=x, ksize=[1, 2, 2, 1], strides=[1, 2, 2, 1], padding="SAME")
+        return tf.nn.max_pool2d(input = x, ksize=[1, 2, 2, 1], strides=[1, 2, 2, 1], padding="SAME")
 
     def fully_connected_layer(self, input_layer, w, b):
         y = tf.matmul(input_layer, w) + b
