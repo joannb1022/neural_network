@@ -34,9 +34,6 @@ class InputWindow:
                 train(model,self.plots)
                 images = recognize(self.model)
                 images.show()
-                images.close()
-
-
                 break
 
         window.close()
