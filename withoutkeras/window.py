@@ -10,6 +10,7 @@ class InputWindow:
         self.layout = [[sg.Text('Shape Classification', size=(40, 1), justification='center', font='Helvetica 20')],
                        [sg.Text("There are 4 shapes:")],
                        [sg.Text("circle, square, triangle, star")],
+                       [sg.Checkbox('Show plots', key="-PLOT-")],
                        [sg.Button('Start', size=(10, 1), font='Helvetica 14')],
                        [sg.Button('Exit', size=(10, 1), font='Helvetica 14')]]
         self.interrupted = False
@@ -24,11 +25,15 @@ class InputWindow:
                 self.interrupted = True
                 break
             if event == "Start":
-                #najpierw trnuje a potem recognize ale wydaje mi sie ze nawet jak nie ma tego self.model tylko na model to tez dziala
                 model = my_model()
                 self.model = model
-                train(model,False) #dalam to false bo plt jest zjebane
-                recognize(self.model)
+                self.plots = values["-PLOT-"]
+                train(model,self.plots)
+                images = recognize(self.model)
+                images.show()
+                images.close()
+
+
                 break
 
-            # window.close()  # z tym to sie zamyka odrazu do okno z rozpoznawanymi ksztaltami, jakis sleep im trzeba czy cos takiego, nei wiem
+        window.close()

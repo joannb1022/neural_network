@@ -5,21 +5,25 @@ class my_model():
 
     def __init__(self):
 
-        self.pool_size = 2
         self.dropout = 0.5
         self.categories = 4
         self.helper = Helper()
         self.optimizer = tf.optimizers.Adam(learning_rate=0.001)
-        self.batch_size = 32 #to tak z dupy, mozesz zmieniac
-        self.epochs = 50
+        self.batch_size = 32
+        self.epochs = 5
         self.train_loss= []
 
         self.shapes = [
-            [5, 5, 1, 32],
+            [3, 3, 1, 32],
             [5, 5, 32, 64],
             [8 * 8 * 64, 512],
             [512, self.categories]
         ]
+
+        # A 3×3 kernel with a dilation rate of 2
+        #will have the same view field of a 5×5 kernel.
+        #This will increase our field of perception but not
+        #increase our computational cost.
 
         self.weights = []
         for i in range(len(self.shapes)):
@@ -33,21 +37,25 @@ class my_model():
 
         conv1 = self.helper.conv_layer(x_input, self.weights[0], self.bias[0])
         conv1 = tf.nn.relu(conv1)
-        pool1 = self.helper.maxPool_layer(conv1, poolSize=self.pool_size)
+        pool1 = self.helper.max_pool_layer(conv1)
 
         conv2 = self.helper.conv_layer(pool1, self.weights[1], self.bias[1])
         conv2 = tf.nn.relu(conv2)
-        pool2 = self.helper.maxPool_layer(conv2, poolSize=self.pool_size)
+        pool2 = self.helper.max_pool_layer(conv2)
 
-        flat1 = tf.reshape(pool2, [-1, pool2.shape[1] * pool2.shape[2] * pool2.shape[3]])
+        # print(pool2.shape[2], pool2.shape[1], pool2.shape[3] )
 
-        fully1 = tf.nn.relu(self.helper.fullyConnected_layer(flat1, self.weights[2], self.bias[2]))
+        flat = tf.reshape(pool2, [-1, pool2.shape[1] * pool2.shape[2] * pool2.shape[3]])
 
-        fully1_dropout = tf.nn.dropout(fully1, rate=self.dropout)
+        fully = tf.nn.relu(self.helper.fully_connected_layer(flat, self.weights[2], self.bias[2]))
 
-        y_pred = self.helper.fullyConnected_layer(fully1_dropout, self.weights[3], self.bias[3])
+        fully_dropout = tf.nn.dropout(fully, rate=self.dropout)
 
-        return y_pred
+        pred = self.helper.fully_connected_layer(fully_dropout, self.weights[3], self.bias[3])
+
+        #print(pred)
+
+        return pred
 
     def trainable_variables(self):
 

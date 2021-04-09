@@ -25,16 +25,15 @@ def train_step(model, x_input, y_true, epoch, test_images, test_labels):
         grads = tape.gradient(loss, model.trainable_variables())
         model.optimizer.apply_gradients(zip(grads, model.trainable_variables()))
 
-        if epoch % 1 == 0: #pokazuje sie na kazdej epoce -> wtedy ten wykres tak skacze -> mozna usunac
-        #if epoch%10==0:
-            y_pred = model.run(test_images)
-            matches = tf.equal(tf.math.argmax(y_pred, 1), tf.math.argmax(test_labels, 1))
 
-            epoch_loss_avg = tf.reduce_mean(loss)
+        y_pred = model.run(test_images)
+        matches = tf.equal(tf.math.argmax(y_pred, 1), tf.math.argmax(test_labels, 1))
 
-            print("--- On epoch {} ---".format(epoch))
-            tf.print( "Loss: ", epoch_loss_avg)
-            print("\n")
+        epoch_loss_avg = tf.reduce_mean(loss)
+
+        print(" On epoch {}".format(epoch))
+        tf.print( "Loss: ", epoch_loss_avg)
+        print("\n")
 
         return  epoch_loss_avg
 
@@ -44,13 +43,9 @@ def train(model, plots):
     test_images, test_labels = data.test_data_with_labels
 
     for epoch in range(model.epochs):
-
         batch_data, batch_labels = get_next_batch(model.batch_size, epoch, train_images, train_labels)
-
         epoch_loss_avg = train_step(model, batch_data, batch_labels, epoch, test_images, test_labels)
-
-        if epoch_loss_avg is not None:
-            model.train_loss.append(epoch_loss_avg)
+        model.train_loss.append(epoch_loss_avg)
 
     if plots:
         plt.plot(model.train_loss)
@@ -59,8 +54,8 @@ def train(model, plots):
 
 def recognize(model):
     data = Data()
-    x, y = data.recognize_data_with_labels #paint_data
-    # x,y = data.test_data_with_labels
+    #x, y = data.recognize_data_with_labels #paint_data
+    x,y = data.test_data_with_labels
     pred = model.run(x)
     pred =np.argmax(pred, axis = 1)
     plt.figure(figsize=(10, 5))
@@ -73,14 +68,9 @@ def recognize(model):
         # else:
         #     col = 'r'
         plt.imshow(x[index].reshape((32, 32)) ,cmap='binary')
-        plt.xlabel(pred[index])
+        plt.xlabel(data.categories[pred[index]])
         # plt.xlabel(pred[index], col=col)
         plt.xticks([])
         plt.yticks([])
         plt.draw()
-    plt.show()
-
-#to jest niepotrzebne
-def train_and_recognize(model):
-    train(model)
-    recognize(model)
+    return plt

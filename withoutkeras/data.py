@@ -53,7 +53,6 @@ def create_data_with_labels(data, img_size):
 
     x = np.array(x).reshape(-1, img_size,  img_size,  1)
     y = np.array(y)
-    #tu dodalam zamiast pozniej to robic
     x = x / 255.0
     y = one_hot_encode(y)
 
