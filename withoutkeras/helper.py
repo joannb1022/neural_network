@@ -29,9 +29,9 @@ class Helper():
 
         return tf.nn.softmax_cross_entropy_with_logits(labels=tf.stop_gradient(target), logits=pred)
 
-
-    def loss_function(self,  pred , target ):
-        return tf.losses.categorical_crossentropy( target , pred )
+    #
+    # def loss_function(self,  pred , target ):
+    #     return tf.losses.categorical_crossentropy( target , pred )
 
 
 """
@@ -46,7 +46,10 @@ Wartosć 'SAME' oznacza, że rozmiar nie zmieni się, co wydaje się łatwiejsz�
 Pooling Layer - ta warstwa przetwarza informacje i kompresuje je. Koncentruje się na najważniejszych częściach obrazu. Kryterium na podstawie,
 którego są one wybierane najczęści opiera się na tzw. max pooling. Polega to na pobieraniu makymalnej wartości piksela z obrębu jednego filtra.
 
-Flattening - aby ostatnie warstwy modelu były w stanie przetworzyć dane, należy je "spłaszczyć". 
+Flattening - aby ostatnie warstwy modelu były w stanie przetworzyć dane, należy je "spłaszczyć".
+
+
+Fully Connected Layer - laczy neurony w jednej warstwie z inna warstwa, aby sklasyfikowac obraz.  
 
 
 """

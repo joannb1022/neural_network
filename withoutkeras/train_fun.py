@@ -17,7 +17,7 @@ def get_next_batch(batch_size, i, images, labels):
 
 def train_step(model, x_input, y_true, epoch, test_images, test_labels):
 
-    epoch_loss_avg = None
+    avg_loss = None
 
     """
     tf.GradientTape oblicza gradient w odniesieniu do danych wejściowych (zwykle tf.Variables)
@@ -47,8 +47,8 @@ def train(model, plots):
 
     for epoch in range(model.epochs):
         batch_data, batch_labels = get_next_batch(model.batch_size, epoch, train_images, train_labels)
-        epoch_loss_avg = train_step(model, batch_data, batch_labels, epoch, test_images, test_labels)
-        model.train_loss.append(epoch_loss_avg)
+        avg_loss = train_step(model, batch_data, batch_labels, epoch, test_images, test_labels)
+        model.train_loss.append(avg_loss)
 
     if plots:
         plt.plot(model.train_loss)
@@ -66,13 +66,8 @@ def recognize(model):
     for i in range(num):
         plt.subplot(2, 5, i+1)
         index = random.randint(0,x.shape[0]-1)
-        # if y[index]==pred[index]:
-        #     col = 'g'
-        # else:
-        #     col = 'r'
         plt.imshow(x[index].reshape((32, 32)) ,cmap='binary')
         plt.xlabel(data.categories[pred[index]])
-        # plt.xlabel(pred[index], col=col)
         plt.xticks([])
         plt.yticks([])
         plt.draw()

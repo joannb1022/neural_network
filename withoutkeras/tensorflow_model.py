@@ -43,7 +43,7 @@ class my_model():
         conv2 = tf.nn.relu(conv2)
         pool2 = self.helper.max_pool_layer(conv2)
 
-        # print(pool2.shape[2], pool2.shape[1], pool2.shape[3] )
+        # print(pool2.shape[2], pool2.shape[1], pool2.shape[3] ) -> 8,8,64
 
         flat = tf.reshape(pool2, [-1, pool2.shape[1] * pool2.shape[2] * pool2.shape[3]])
 
