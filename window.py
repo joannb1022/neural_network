@@ -1,6 +1,6 @@
 import PySimpleGUI as sg
 from keras import Model
-from preparedata import create_data, create_training_set, show_random_shapes
+
 
 class InputWindow:
 

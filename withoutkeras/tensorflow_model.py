@@ -20,11 +20,6 @@ class my_model():
             [512, self.categories]
         ]
 
-        # A 3×3 kernel with a dilation rate of 2
-        #will have the same view field of a 5×5 kernel.
-        #This will increase our field of perception but not
-        #increase our computational cost.
-
         self.weights = []
         for i in range(len(self.shapes)):
             self.weights.append(self.helper.get_tfVariable(self.shapes[i], 'weight{}'.format(i)))

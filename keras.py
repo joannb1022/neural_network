@@ -7,13 +7,13 @@ from preparedata import create_data, create_data_with_labels, show_random_shapes
 
 class Model():
     def __init__(self):
-        self.categories = ["square", "circle", "triangle", "star"]
-        self.dir_name_train = "train"
-        self.dir_name_test = "test"
+        self.categories = [ "circle", "square","triangle", "star"]
+        self.dir_name_train = "./withoutkeras/train"
+        self.dir_name_test = "./withoutkeras/test"
         self.img_size = 28
-        self.train_data = create_data(self.categories, 28, "train")
+        self.train_data = create_data(self.categories, 28, self.dir_name_train)
         self.train_data_with_labels = create_data_with_labels(self.train_data, self.img_size)
-        self.test_data = create_data(self.categories, 28, "test")
+        self.test_data = create_data(self.categories, 28, self.dir_name_test)
         self.test_data_with_labels = create_data_with_labels(self.test_data, self.img_size)
         self.model = None
         self.next = False
@@ -24,12 +24,8 @@ class Model():
 
         model = tf.keras.models.Sequential()
         model.add(tf.keras.layers.Flatten(input_shape = x.shape[1:]))
-        #model.add(tf.keras.layers.Flatten())
         model.add(tf.keras.layers.Dense(units = 128, activation=tf.nn.relu))
-        model.add(tf.keras.layers.Dense(units = 128, activation=tf.nn.relu))
-        # model.add(tf.keras.layers.Dense(128, activation='relu'))
-        # model.add(tf.keras.layers.Dropout(0.2))
-        # model.add(tf.keras.layers.Dense(10))
+        #model.add(tf.keras.layers.Dense(units = 128, activation=tf.nn.relu))
         model.add(tf.keras.layers.Dense(units = len(self.categories), activation=tf.nn.softmax))
 
         model.compile(optimizer = 'adam', loss = 'sparse_categorical_crossentropy', metrics=['accuracy'])
